@@ -4,7 +4,8 @@ root_dir = Path().resolve()
 code_dir= root_dir / 'src/e211_lib'
 git_version = get_version(root=str(root_dir))
 print(f"{git_version=}")
-version_file = code_dir / 'VERSΙΟΝ.txt'
+version_file = root_dir / 'VERSΙΟΝ.txt'
+print(f"here is the version file {version_file}")
 with open(version_file,'w') as outfile:
     outfile.write(git_version)
 print((f"wrote new version number {git_version=}\n"

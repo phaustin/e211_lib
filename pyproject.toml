@@ -1,6 +1,12 @@
 # pyproject.toml
 [build-system]
-requires = ["setuptools>=45", "wheel"]
+requires = ["setuptools>=45", "wheel","setuptools_scm>=6.2"]
+
+[tools.setuptools_scm]
+write_to = "src/e211_lib/VERSION.txt"
+
+
+
 
 
 
