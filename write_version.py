@@ -5,7 +5,7 @@ print(f"{root_dir=}")
 code_dir= root_dir / 'src/e211_lib'
 git_version = get_version(root=str(root_dir))
 print(f"{git_version=}")
-version_file = code_dir / 'VERSION'
+version_file = code_dir / 'VERSION.txt'
 with open(version_file,'w') as outfile:
     outfile.write(f"{git_version}\n")
 print((f"wrote new version number {git_version=}\n"
