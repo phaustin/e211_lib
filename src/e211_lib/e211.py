@@ -13,6 +13,26 @@ from scipy.io import loadmat
 import datetime
 import pandas as pd
 from matplotlib import pyplot as plt
+import arrow
+
+
+# %%
+def mtime_to_arrow(mtime):
+    """
+    convert matlab datenum values to datetime (intermediate) to arrow date objects
+
+    in: decimal days since 0 0 2000 (float)
+    out: arrow datetime object
+    """
+    arrow_time = np.empty(len(mtime), dtype="O")
+    dt = np.empty(len(mtime), dtype="O")
+
+    for i, time in enumerate(mtime):
+        dt[i] = datetime.datetime.fromordinal(int(mtime[i] - 1)) + datetime.timedelta(
+            days=(mtime[i] % 1) - 365
+        )
+        arrow_time[i] = arrow.get(dt[i])
+    return arrow_time
 
 
 # %%
@@ -31,6 +51,8 @@ def load_temps(my_data):
     matfile = loadmat(my_data)
     temp = matfile["temperature"].flatten()
     time = matfile["time"].flatten()
+    time = mtime_to_arrow(time)
+    
     return temp, time
 
 
@@ -76,11 +98,12 @@ def load_aircraft(my_data):
     """
     designed to load aircraft gps path for lab wk6
 
-    current state just returns the velocity array
+    returns velocity array and associated timestamps as arrow time objects
     """
     matfile = loadmat(my_data)["gps"]
     vel = matfile["vel"][0][0][0]
-    time = matfile["mtime"][0][0][0]  # current format = unix epoch + <days>
+    time = matfile["mtime"][0][0][0] 
+    time = mtime_to_arrow(time) 
 
     return vel, time
 
